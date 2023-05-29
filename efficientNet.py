@@ -17,7 +17,8 @@ size = 6
 fomat = 'png'
 # #IMAGE_SHAPE = (224, 224)
 IMAGE_SHAPE = (1024, 1024)
-layer = hub.KerasLayer(model_url_v2_0) #모델은 V1이 0~7까지, V2는 0~3까지 존재
+layer = hub.KerasLayer(model_url_v2_3) #모델은 V1이 0~7까지, V2는 0~3까지 존재
+print('layer', layer)
 model = tf.keras.Sequential([layer])
 metric1 = 'euclidean'
 
@@ -49,26 +50,30 @@ def extract(file):
 
 # 거리 계산 함수
 def calculate_distances(code, metric1):
-    length = len(code)
-    arr = [[0 for j in range(length)] for i in range(length)]
+    arr = []
 
     for i in range(0, len(code)):
         for j in range(i +1, len(code)):
             dc = distance.cdist([code[i]], [code[j]], metric1)[0]
 
-            arr[i][j] = 100 - dc
+            arr.append({
+                'from' : i,
+                'to' : j,
+                'result' : dc[0]
+            })
+
 
     return arr
 
 def execute():
     # 이미지 복제 및 size X size 형식의 이미지 생성
-    path = "./Image"
+    path = "./crop_Image"
     fileList = os.listdir(path)
 
     for file in fileList:
         image_path = path + '/' + file
         
-        replicate_image(path, image_path, size, fomat, file)
+        replicate_image(image_path, size, file)
 
     # 변환된 이미지 추출
     code = []
@@ -79,8 +84,6 @@ def execute():
         code.append(extract(path + '/' + file))
 
     # 결과 
-    arr = calculate_distances(code, metric1)    
-    print(arr[0][0])
-    print(arr[0][1])
-    print(arr[0][2])
-    print(arr[1][2])
+    arr = calculate_distances(code, metric1)
+
+    return arr
