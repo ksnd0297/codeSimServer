@@ -1,0 +1,5 @@
+crop_image/*
+Image/*
+ReImage/*
+
+__pycache__

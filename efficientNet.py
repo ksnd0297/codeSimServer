@@ -59,7 +59,7 @@ def calculate_distances(code, metric1):
             arr.append({
                 'from' : i,
                 'to' : j,
-                'result' : dc[0]
+                'result' : 100 - dc[0]
             })
 
 

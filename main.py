@@ -43,4 +43,4 @@ async def create_item(item: Item):
     cleanUp()
     result = efficientNet.execute()
 
-    return 
+    return result
