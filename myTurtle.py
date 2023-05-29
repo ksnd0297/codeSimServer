@@ -71,7 +71,7 @@ class Turtle:
         
         self.T.pencolor(self.rgb_to_hex(self.color['r'], self.color['g'], self.color['b']))
 
-        self.color['r'] += 5
+        self.color['r'] += 2
 
         
 
